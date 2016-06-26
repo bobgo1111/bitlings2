@@ -37,10 +37,7 @@ def fixer(word):
             emptylist.append(character)
     return ''.join(emptylist)
 
-for t in allWords:
-    if t >= "A":
-        t = fixer(t)
-        copyOfAllWords.append(t)
+copyOfAllWords = [fixer(t) for t in allWords if t >= "A"]
 
 print("these are the number of lines: " + str(len(lines)))
 
@@ -56,4 +53,5 @@ print("there are " + str(total) + " words in this document")
 for w in copyOfAllWords:
     allWordsDeduped[w] = allWordsDeduped.get(w, 0) + 1
 
+print("This is a list of the words in your document (below) and how many of each word there are:")
 pprint.pprint(allWordsDeduped)
