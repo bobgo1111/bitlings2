@@ -4,7 +4,7 @@
 import os.path, pprint
 
 def theAsker():
-    theFilename = input("Give us the preciousss! We wants it! Give us the filename!")
+    theFilename = input("Please type a file name: ")
     if os.path.isfile(theFilename) == True:
          print("good job thats a legit filename")
     else:
