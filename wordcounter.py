@@ -3,7 +3,7 @@
 
 import os.path, pprint
 
-def theAsker():
+def filenameAsker():
     theFilename = input("Please type a file name: ")
     if os.path.isfile(theFilename) == True:
          print("good job thats a legit filename")
@@ -14,22 +14,14 @@ def theAsker():
         print("thats a legit filename!")
     return theFilename
 
-theFile = theAsker()
-theFilehandle = open(theFile, "r")
-lines = theFilehandle.readlines()
-print("this is what your file says: " + str(lines))
 
-total = 0
+def wordCleaner(word):
+    """
+    Takes out all punctuation and number characters from a word.
 
-allWords = []
-
-for line in lines:
-    words = line.split()
-    allWords.extend(words)
-
-copyOfAllWords = []
-
-def fixer(word):
+    :param word: The word to clean
+    :return: The cleaned word
+    """
     emptylist = []
     word = word.strip("'")
     for character in word:
@@ -37,21 +29,54 @@ def fixer(word):
             emptylist.append(character)
     return ''.join(emptylist)
 
-copyOfAllWords = [fixer(t) for t in allWords if t >= "A"]
+def readFile(fileName):
+    """
+    This function reads a file and returns a list of all its lines.
 
-print("these are the number of lines: " + str(len(lines)))
+    :param fileName: The name of the file to open
+    :return: a list of lines from the file
+    """
+    theFilehandle = open(theFile, "r")
+    lines = theFilehandle.readlines()
+    print("this is what your file says: " + str(lines))
+    theFilehandle.close()
+    return lines
 
-copyOfAllWords.sort()
 
-allWordsDeduped = {}
 
-for x in lines:
-    total = total + len(x.split())
+def linesToWords(lines):
+    allWords = []
+    for line in lines:
+        words = line.split()
+        allWords.extend(words)
 
-print("there are " + str(total) + " words in this document")
+def main():
+    theFileName = filenameAsker()
+    lines = readFile(theFileName)
+    allWords = linesToWords(lines)
 
-for w in copyOfAllWords:
-    allWordsDeduped[w] = allWordsDeduped.get(w, 0) + 1
+    copyOfAllWords = []
 
-print("This is a list of the words in your document (below) and how many of each word there are:")
-pprint.pprint(allWordsDeduped)
+    copyOfAllWords = [wordCleaner(t) for t in allWords if t >= "A"]
+
+    print("these are the number of lines: " + str(len(lines)))
+
+    copyOfAllWords.sort()
+
+    allWordsDeduped = {}
+
+    total = 0
+
+    for x in lines:
+        total = total + len(x.split())
+
+    print("there are " + str(total) + " words in this document")
+
+    for w in copyOfAllWords:
+        allWordsDeduped[w] = allWordsDeduped.get(w, 0) + 1
+
+    print("This is a list of the words in your document (below) and how many of each word there are:")
+    pprint.pprint(allWordsDeduped)
+
+if __name__ == "__main__":
+    main()
