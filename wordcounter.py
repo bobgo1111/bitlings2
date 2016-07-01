@@ -36,26 +36,23 @@ def readFile(fileName):
     :param fileName: The name of the file to open
     :return: a list of lines from the file
     """
-    theFilehandle = open(theFile, "r")
+    theFilehandle = open(fileName, "r")
     lines = theFilehandle.readlines()
     print("this is what your file says: " + str(lines))
     theFilehandle.close()
     return lines
-
-
 
 def linesToWords(lines):
     allWords = []
     for line in lines:
         words = line.split()
         allWords.extend(words)
+    return allWords
 
 def main():
     theFileName = filenameAsker()
     lines = readFile(theFileName)
     allWords = linesToWords(lines)
-
-    copyOfAllWords = []
 
     copyOfAllWords = [wordCleaner(t) for t in allWords if t >= "A"]
 
